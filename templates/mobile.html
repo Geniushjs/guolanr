@@ -1,0 +1,46 @@
+{% extends "help_base.html" %}
+
+{% block title %}手机验证{% endblock %}
+
+{% block headscript %}
+
+<script type="text/javascript" >
+
+function check(form)
+{
+	$.get("/user/mobile/confirm", {id:form.id.value, code:form.code.value},
+		function (data) {
+			if (data.indexOf("/") <= 1)
+				window.location.href = form.redirect_uri.value;
+			else
+				$(".info").html(data);
+		}
+	);
+	
+	return false;
+}
+
+</script>
+
+{% endblock %}
+
+{% block main %}
+
+<form action="/user/mobile/confirm" method="post" onsubmit="return check(this)">
+<input type="hidden" name="id" value="{{userprofile_id}}">
+<input type="hidden" name="redirect_uri" value="{{redirect_uri}}">
+<table align="center">
+	<tr>
+		<td>您的手机号码{{userprofile.mobile}}</td>
+	</tr>
+	<tr>
+		<td>
+		请输入发送到您手机上的短信验证码
+		<input type="text" name="code">
+		<input type="submit" name=submit value="确定">
+		<div class="info"></div>
+		</td>
+	</tr>
+</table>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "help_base.html" %}
+
+{% block title %}
+{% if title %}
+{{title}}
+{% else %}
+出错了
+{% endif %}
+{% endblock %}
+
+{% block main %}
+	<div class="error" align="center">{{message}}</div>
+{% endblock %}

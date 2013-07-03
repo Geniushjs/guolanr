@@ -1,0 +1,51 @@
+{% extends "myadmin/base.html" %}
+
+{% block headscript %}
+
+<script type="text/javascript" >
+$(document).ready(
+	function () {
+		$(".soldout").click(
+			function (){
+				id = $(this).attr("fruit_id");
+				$("#result"+id).load("/myadmin/sold_out?id="+id);
+			}
+		);
+		$(".top").click(
+			function (){
+				id = $(this).attr("fruit_id");
+				$("#result"+id).load("/myadmin/top?id="+id);
+			}
+		);
+	}
+);
+</script>
+{% endblock %}
+
+{% block content %}
+<table>
+<tr>
+{% for fruit in fruits %}
+<td><table>
+	<tr>
+		<td><img src="/static/{{fruit.image_small}}" width="200" height="200"></td>
+	</tr>
+	<tr>
+		<td>
+		{{fruit.name}}
+		{% if fruit.sold_out %}
+		<button class="soldout" fruit_id="{{fruit.id}}"><font color="red">上架</font></button>
+		{% else %}
+		<button class="soldout" fruit_id="{{fruit.id}}">下架</button>
+		{% endif %}
+		<button class="top" fruit_id="{{fruit.id}}">置顶</button>
+		<div id="result{{fruit.id}}"></div>
+		</td>
+	</tr>
+</table></td>
+{% cycle "" "" "" "" "" "</tr><tr>"%}
+{% endfor %}
+</tr>
+</table>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}结算中心{% endblock %}
+
+{% block headscript %}
+<script src="/static/js/checkout.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/js/cart.js" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+
+{% block content %}
+
+<table><tr><td class="title">
+结算中心
+</td></tr></table>
+
+<table width="993" cellpadding="0" cellspacing="0" border="0" bgcolor="#88ce2c">
+<tr><td align="center" style="padding-top:1px;padding-bottom:1px" >
+	<table width="991" cellpadding="1" cellspacing="0" border="0" bgcolor="#ffffff">
+	<tr><td valign="top" align="center">
+	
+	<table><tr><td height="20"></td></tr></table>	
+
+	<div class="cart checkout_cart">
+	{% include "checkout_cart.html" %}
+	</div>
+
+	<form action="/submit" method="post" name="userform" onsubmit="return checkform(this);">
+	<table width="902"><tr>
+	<td width="580">
+		<table>
+		<tr>
+			<td width="100">配送地区</td>
+			<td>
+			<select name="school_id">
+			{% for s in schools %}
+			<option value="{{s.id}}">{{s.name}}</option>
+			{% endfor %}
+			</select><br>
+			<span class="rmb">由于人手不够，不在配送范围的顾客请勿下单</span>
+			</td>
+		</tr>
+
+		<tr>
+			<td width="100">配送时间</td>
+			<td>
+			<select name="time_id">
+				{% for i in intervals %}
+				{% if i.today %}
+				<option value="{{i.id}}">{{i.is_today}} {{i.start_time|time:"G:i:s"}}-{{i.end_time|time:"G:i:s"}}</option>
+				{% endif %}
+				{% endfor %}
+				{% for i in intervals %}
+				{% if not i.today %}
+				<option value="{{i.id}}">{{i.is_today}} {{i.start_time|time:"G:i:s"}}-{{i.end_time|time:"G:i:s"}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+			当前系统时间{{current_time}}
+			</td>
+		</tr> 
+
+		<tr>
+			<td width="120">配送地址*</td>
+			<td>
+			<input type="text" name="address" maxlength="100" size="40" value="{{address}}">
+			</td>
+		</tr> 		
+
+		<tr>
+			<td width="100">手机*</td>
+			<td>
+			<input type="text" name="mobile" maxlength="11" value="{{mobile}}">
+			</td>
+		</tr> 
+	
+		<tr>
+			<td width="100">其他电话(选填)</td>
+			<td>
+			<input type="text" name="phone" maxlength="20" value="{{phone}}">
+			</td>
+		</tr> 		
+
+		<tr>
+			<td width="100">顾客留言</td>
+			<td>
+			<textarea name="remark" cols="40" rows="5"></textarea>
+			</td>
+		</tr>
+		</table>
+	</td>
+	<td width="126" valign="bottom">
+		<a href="/"><img src="/static/images/jixugouwu.png" border="0"></a>
+	</td>
+	<td width="195" valign="bottom">
+		<input type="submit" name="submit" class="submit_order submit" value="">
+	</td>
+	</tr></table>
+	</form>
+	
+	</td></tr>
+	</table>
+</td></tr>
+</table>
+
+{% endblock %}

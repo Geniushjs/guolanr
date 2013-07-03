@@ -1,0 +1,70 @@
+{% extends "help_base.html" %}
+{% block title %}我的订单{% endblock %}
+
+{% block headscript %}
+<script src="/static/js/myorders.js" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+
+
+{% block main %}
+
+{% for order in orders %}
+<table class="mytable" width="930">
+	<tr>
+		<th>订单号</th>
+		<th>订单内容</th>
+		<th>配送信息</th>
+		<th>价格</th>
+	</tr>
+	<tr>
+		<td width="50" align="center">
+			<font size="3">{{order.school_order_id}}</font>
+		</td>
+		<td width="400">
+		<table class="mytable">
+			<tr><td>下单时间</td><td>{{order.datetime|date:"Y/m/d G:i:s"}}</td></tr>
+			<tr><td>配送时间</td><td>{{order.is_today}}{{order.delivery_start_time|time:"G:i"}}-{{order.delivery_end_time|time:"G:i"}}</td></tr>
+			<tr><td>订单详情</td><td>{{order.content}}</td></tr>
+		</table>
+		</td>
+		<td>
+		{{order.mobile}}<br>{{order.address}}
+		</td>
+		<td>
+		{{order.min_pay}}~{{order.max_pay}}元
+		</td>
+	</tr>
+</table>
+
+<table>
+	<tr>
+	<td width="50"></td>
+	<td width="100">评价信息</td>
+	<td>
+		{% if order.evaluated %}
+			已评
+		{% else %}
+		<form action="/evaluation" method="post" name="evalform" onSubmit="return checkform(this);">
+		<input type="hidden" name="id" value="{{order.id}}" >
+		总体评价
+		<select name="general">
+			<option value="1">好评</option>
+			<option value="0">中评</option>
+			<option value="-1">差评</option>
+		</select>
+		实收金额
+		<input name="total" size="3" value="">
+		<br>
+		留言
+		<input name="remark" size="40" value="">
+		<input type="submit" value="" class="submit_evaluation">
+		</form>
+		<div class="help_text">提交评价可获得积分，积分可换取抵价券</div>
+		{% endif %}
+	</td>
+	</tr>
+</table>
+<table><tr><td height="30"></td></tr></table>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "help_base.html" %}
+
+{% block title %}完善用户资料{% endblock %}
+
+{% block headscript %}
+
+<script src="/static/js/checkout.js" type="text/javascript" charset="utf-8"></script>
+
+{% endblock %}
+
+{% block main %}
+
+	<form action="/user/init/submit" method="post" name="userform" onsubmit="return checkform(this);">
+	<table width="902"><tr>
+	<td width="580">
+		<table>
+		<tr>
+			<td width="120" colspan="2" class="total_rmb">
+			完善用户资料即可获得18元抵价券
+			</td>
+		</tr>
+ 		
+		<tr>
+			<td width="120">配送地址*</td>
+			<td>
+			<input type="text" name="address" maxlength="100" size="50" value="{{address}}">
+			</td>
+		</tr> 		
+
+		<tr>
+			<td width="100">手机*</td>
+			<td>
+			<input type="text" name="mobile" maxlength="11" value="{{mobile}}">
+			</td>
+		</tr> 
+	
+		<tr>
+			<td width="100">其他电话(选填)</td>
+			<td>
+			<input type="text" name="phone" maxlength="20" value="{{phone}}">
+			</td>
+		</tr> 		
+
+		</table>
+	</td>
+	<td width="321" valign="bottom">
+		<input type="submit" class="submit_userinfo" value="">
+	</td>
+	</tr></table>
+	</form>
+
+{% endblock %}file:///home/doukao/www/guolanr/templates/init.html

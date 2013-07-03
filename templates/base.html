@@ -1,0 +1,117 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xn="http://www.renren.com/2009/xnml">
+<head>
+ <title>{% block title %} {% endblock %}</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+ <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+
+<script src="/static/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+
+{% block headscript %}
+{% endblock %}
+
+</head>
+ 
+<body>
+
+	<div class="header" align="center">
+		<table width="993" cellpadding="0" cellspacing="0" border="0">
+		<tr>
+		<td align="left" height="43" valign="center" width="100">
+		<a href="/"><img src="/static/images/logo30.png" border="0"></a>
+		</td>
+		<td align="left" height="43" valign="center" width="350">
+		<a href="/myorders">我的订单({{request.user.get_profile.order_count}})</a> |
+		<a href="/mycoupons">我的抵价券({{request.user.get_profile.coupon_count}})</a> | 
+		<a href="/myscore">积分兑换({{request.user.get_profile.score}})</a>
+		</td>
+		<td align="left" height="43" valign="center">
+		{% if request.user.get_profile %}
+			<b>{{request.user.get_profile.name}}</b>，欢迎来到果篮儿网 <a href="/renrenlogout">退出登录</a>
+		{% else %}
+			<a href="/renrenlogin"><img src="/static/images/renren_login.png" border="0"></a>
+		{% endif %}
+		</td>
+		<td>
+		
+		<script type="text/javascript" charset="utf-8">
+		(function(){
+		var p = [], w=130, h=24,
+		lk = {
+		url:'http://guolanr.com/'||location.href, /*喜欢的URL(不含如分页等无关参数)*/
+		title:'果篮儿网上水果超市'||document.title, /*喜欢标题(可选)*/
+		description:'新鲜水果，水果拼盘，一日九送，货到付款。暂时只配送北京大学及中关村地区，其他地区业务会相继开放！', /*喜欢简介(可选)*/
+		image:'http://guolanr.com/static/images/logo.png' /*喜欢相关图片的路径(可选)*/
+		};
+		for(var i in lk){
+			p.push(i + '=' + encodeURIComponent(lk[i]||''));
+		}
+		document.write('<iframe scrolling="no" frameborder="0" allowtransparency="true" src="http://www.connect.renren.com/like/v2?'+p.join('&')+'" style="width:'+w+'px;height:'+h+'px;"></iframe>');
+		})();
+		</script>
+
+		</td>		
+		</tr>
+		</table>
+	</div>
+
+	<table><tr><td height="43"></td></tr></table>
+	<div class="banner" align="center">
+	<table width="993" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+			<td width="400" align="left" >
+			<a href="/"><img src="/static/images/logo.png" border="0"></a>
+			</td>
+			<td>
+			<table cellspacing="0" cellpadding="0" border="0">
+				<tr><td>	
+				</td></tr>
+				<tr><td>	
+				</td></tr>
+			</table>
+			</td>
+		</tr>
+	</table>
+	</div>
+	
+	<div align="center">
+		{% block content %}{% endblock %}
+	</div>
+
+	<div class="footer" align="center">
+	<table width="993" cellpadding="1" cellspacing="0" border="0" bgcolor="#88ce2c">
+	<tr><td>
+		<table width="991" cellpadding="10" cellspacing="0" border="0" bgcolor="#ffffff"
+					class="help">
+		<tr>
+			<td align="center"><img src="/static/images/howtouse.png" border="0"></td>
+			<td align="center"><img src="/static/images/delivery.png" border="0"></td>
+			<td align="center"><img src="/static/images/contact.png" border="0"></td>
+			<td align="center"><img src="/static/images/telphone.png" border="0"></td>
+		</tr>
+		<tr>
+			<td align="center">
+			无需注册<br>2步完成购物<br>方便快捷
+			</td>
+			<td align="center">
+			一天9个配送时间段<br>
+			可预订第二天送水果<br>
+			新鲜水果及时送达
+			</td>
+			<td align="center">
+			登录即送抵价券<br>
+			积分换取更多优惠
+			</td>
+			<td align="center">
+			客服电话<br>18010022115
+			</td>
+		</tr>
+		</table>	
+	</td></tr>
+	</table>
+		<script src="http://s23.cnzz.com/stat.php?id=3682867&web_id=3682867&show=pic" language="JavaScript"></script>
+		CopyRight 2011-2012 
+	</div>
+
+</body>
+</html>
+

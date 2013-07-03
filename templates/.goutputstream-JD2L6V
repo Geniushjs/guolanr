@@ -1,0 +1,51 @@
+
+<table class="small_cart small_cart_body">
+<th>水果</th>
+<th>单价</th>
+<th>数量</th>
+<th>小计</th>
+<th>删除</th>
+
+{% for fruit in cart.fruits %}
+<tr>
+	<td>{{fruit.name}}</td>
+	<td>{{fruit.price}}</td>
+	
+	<td width="100">
+		<img src="/static/images/btn_del.jpg" class="del less" fruit_id="{{fruit.id}}">
+		<input class="count" type="text" value="{{fruit.count}}" fruit_id="{{fruit.id}}" size="1">
+		<img src="/static/images/btn_add.jpg" class="add more" fruit_id="{{fruit.id}}">
+	</td>
+	
+	<td>{{fruit.subtotal}}</td>
+	
+	<td class="remove" fruit_id="{{fruit.id}}"></td>
+</tr>
+{% endfor %}
+
+<tr>
+	<td colspan="5">
+	<hr>
+	</td>
+</tr>
+
+<tr>
+	<td>
+		总计
+	</td>
+	<td colspan="3" align="right">
+		{{cart.total}}
+	</td>
+	<td>
+		元
+	</td>
+</tr>
+
+<tr>
+	<td colspan="5" align="left" valign="bottom">
+		<a href="javascript:void(0);" class="clear">清空果篮儿</a>
+		<a href="/checkout" class="checkout"><img src="/static/images/jiesuan.png" border="0"></a>
+	</td>
+</tr>
+
+</table>

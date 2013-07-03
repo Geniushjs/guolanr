@@ -1,0 +1,44 @@
+{% extends "help_base.html" %}
+
+{% block title %}积分兑换{% endblock %}
+
+{% block main %}
+
+<div align="center">
+
+<table class="mytable" width="930">
+	<caption>您当前的积分为{{request.user.get_profile.score}}</caption>
+	<tr>
+		<th>面值</th>
+		<th>最低消费额度</th>
+		<th>兑换所需积分</th>
+		<th>操作</th>
+	</tr>
+	{% for coupontype in coupontypes %}
+		<tr align="center" class = {% cycle "row1" "row2" %}>
+		<form action='/user/coupon/exchange' method="post">
+			<input type="hidden" name="coupontype" value="{{coupontype.id}}">
+			<td>{{coupontype.price}}元</td>
+			<td>
+				{% if coupontype.least_consumption == 0 %}
+					不限额
+				{% else %}
+					{{coupontype.least_consumption}}元
+				{% endif %}
+			</td>
+			<td>{{coupontype.exchange_score}}</td>
+			<td>
+			{% if coupontype.exchange_score <= request.user.get_profile.score %}
+				<input type="submit" class="exchange" value="">
+			{% else %}
+				您暂时没有足够积分
+			{% endif %}
+			</td>
+		</form>
+		</tr>
+	{% endfor %}
+
+</table>
+
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+<table width="902" cellpadding="1" cellspacing="0" border="0" bgcolor="#88ce2c">
+<tr><td align="center">
+	<table width="900" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff">
+	<tr class="checkout_cart_header">
+		<th width="100">商品图片</th>
+		<th>商品名称</th>
+		<th>单价</th>
+		<th>数量</th>
+		<th>操作</th>
+	</tr>
+	
+	<tr><td height="10"></td></tr>
+	
+	{% for fruit in cart.fruits %}
+	<tr>
+		<td align="center" valign="center" style="padding-left:10;text-align:left;">
+			<img src="/static/{{fruit.image_small}}" width="80" height="80">
+		</td>
+		<td align="center">
+			{{fruit.name}}
+		</td>
+		<td align="center" class="rmb">{{fruit.min_price}}~{{fruit.max_price}}</td>
+		<td align="center">
+			<img src="/static/images/btn_del.jpg" class="del less" fruit_id="{{fruit.id}}" render_to="checkout_cart.html">
+			<input size="1" class="count" type="text" value="{{fruit.count}}" fruit_id="{{fruit.id}}"  render_to="checkout_cart.html"><span class="unit">{{fruit.unit}}</span>
+			<img src="/static/images/btn_add.jpg" class="add more" fruit_id="{{fruit.id}}" render_to="checkout_cart.html">
+		</td>
+		<td align="center">
+			<span class="checkout_remove" fruit_id="{{fruit.id}}" render_to="checkout_cart.html">删除</span>
+		</td>
+	</tr>
+	{% endfor %}
+	
+	<tr><td height="10"></td></tr>
+	
+	</table>
+</td></tr>
+
+<tr><td align="center">
+	<table width="900" cellpadding="5" cellspacing="0" border="0" bgcolor="#ffffff"
+			style="padding-top:20px;padding-bottom:20px;">
+	<tr>
+		<td align="right" valign="bottom" width="100%" bgcolor="#f3f3f3"
+				style="padding-right:30px">
+			{% if cart.coupons|length == 0 %}
+				使用<a href="/renrenlogin"><img src="/static/images/renren_login.png" border="0"></a>可以使用抵价券，首次登录可获得18元抵价券
+			{% else %}
+				使用抵价券
+			<select class="coupon">
+				<option value="0" selected="true">不使用抵价券</option>
+				{% for coupon in cart.coupons %}
+				<option value="{{coupon.id}}" 
+					{% if coupon == cart.coupon %}selected="true"{% endif %}
+					{% if cart.min_total < coupon.type.least_consumption %}disabled="true"{% endif %}
+				>
+					{{coupon}}
+				</option>
+				{% endfor %}
+			</select>
+			{% endif %}
+			<span class="total_rmb">优惠{{cart.discount}}元</span>
+		</td>
+	</tr>
+	<tr>
+		<td align="right" style="padding-right:30px">
+			(10元以下加收1元运费)
+			<span class="total_rmb">运费{{cart.delivery_fee}}元</span>
+		</td>
+	</tr>
+	<tr>
+		<td align="right" style="padding-right:30px">
+			<a href="javascript:void(0);" class="clear" render_to="checkout_cart.html">清空购物车</a>
+			(货到付款,根据实际称的重量实收)
+			<span class="total_rmb">总计{{cart.min_pay}}~{{cart.max_pay}}元</span>
+		</td>
+	</tr>
+	</table>
+</td></tr>
+
+</table>

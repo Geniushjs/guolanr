@@ -1,0 +1,35 @@
+{% extends "help_base.html" %}
+
+{% block title %}我的低价券{% endblock %}
+
+{% block main %}
+
+{% if coupons|length != 0 %}
+<div align="center">
+<table width="824" align="center">
+<tr>
+{% for coupon in coupons %}
+	<td>
+	<table class="coupon_bg">
+		<tr><td align="right">
+			<font size="15" color="#8c0412">{{coupon.type.price}}元</font>
+		</td></tr>
+		<tr><td align="right">
+			满<span class="rmb">{{coupon.type.least_consumption}}</span>元即可使用
+		</td></tr>
+		<tr><td align="right">
+			使用期限到{{coupon.expire_date|date:'Y-m-d'}}
+		</td></tr>
+	</table>
+	</td>
+	{% cycle "" "" "" "</tr><tr>"%}
+{% endfor %}
+</tr>
+</table>
+</div>
+
+{% else %}
+<div align="center"><h2>您当前没有抵价券</h2></div>
+{% endif %}
+
+{% endblock %}

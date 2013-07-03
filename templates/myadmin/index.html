@@ -1,0 +1,186 @@
+{% extends 'myadmin/base.html' %}
+{% block title %}后台管理{% endblock %}
+
+{% block headscript %}
+<script type="text/javascript">
+var evaluation1 = '<font color=green>好评</font>'; 
+var evaluation2 = '<font color=yellow>中评</font>'; 
+var evaluation3 = '<font color=red>差评</font>';
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="module">
+<table width="100%" align="center">
+	<caption>
+	<div align="center">
+	<font color="white" size="6">
+	{{order_count}}条订单
+	{{evaluation_count}}个评价
+	</font>
+	</div>
+	</caption>
+	<tr>
+	<td width="100%" align="center">
+		<table>
+			<tr>
+			{% for myorder in daily_orders %}
+				<td>
+				<table>
+					<tr><td>{{myorder.dt|date:"m/d/星期w"}}</td></tr>
+					<tr><td>{{myorder.count}}|{{myorder.turnover}}({{myorder.pay_price}})</td></tr>
+				</table>
+				</td>
+				{% if forloop.counter == 7 %}
+				</tr><tr>
+				{% endif %}
+			{% endfor %}
+			</tr>
+		</table>
+	</td>
+	</tr>
+</table>
+</div>
+
+<table width="100%">
+	<tr>
+		<td>
+			<div class="module"> 
+			<table width="100%">
+				<caption>最近订单</caption>
+				<tr>
+					<th>订单号</th>
+					<th>送货时间</th>
+					<th>人人帐号</th>
+					<th>顾客电话</th>
+					<th>顾客地址</th>
+					<th>价格区间</th>
+					<th>实收价格</th>
+					<th>下单时间</th>
+					<th>交易成功</th>
+				</tr>
+				{% for order in orders %}
+				<tr class="{% if order.delivery_today %}row1{% else %}row2{% endif %}">
+					<td>{{order.school_order_id}}</td>
+					<td>{{order.delivery_datetime|date:"Y/m/d G:i"}}</td>
+					<td>{{order.userprofile.name}}</td>
+					<td>{{order.mobile}} ({{order.userprofile.order_count}})</td>
+					<td><a href="/admin/guolan/order/{{order.id}}/" >	{{order.address}}</td>
+					<td>{{order.min_pay}}~{{order.max_pay}}</td>
+					<td>{{order.customer_total}}</td>
+					<td width="150">{{order.datetime|date:'Y-m-d G:i:s'}}</td>
+					<td>
+						<img src="/media/img/admin/icon-{% if order.valid %}yes{% else %}no{% endif %}.gif"> 
+					</td>
+				</tr>
+				{% endfor %}
+			</table>
+			</div>
+			<div class="module"> 
+			<table width="100%">
+				<caption>最近评价</caption>
+				{% for evaluation in evaluations %}
+				<tr>
+					<td width="250"><a href="/admin/guolan/evaluation/{{evaluation.id}}/">{{evaluation.order.address}}</a></td>
+					<td width="70">{{evaluation.order.userprofile.name}}</td>
+					<td width="30">{{evaluation.order.school_order_id}}</td>
+					<td width="90">{{evaluation.order.mobile}}</td>
+					<td width="30">({{evaluation.general}})</td>
+					<td >{{evaluation.remark}}</td>
+					<td width="150">{{evaluation.datetime|date:'Y-m-d G:i:s'}}</td>
+				</tr>
+				{% endfor %}
+			</table>
+			</div>
+		</td>
+		<td width="20%">
+			<div class="module"> 
+			<table width="100%">
+				<caption>变身顾客</caption>
+				<tr>
+					<td>
+					<form action="/myadmin/cookie_register" method="post">
+						手机号<input type="text" name="mobile" maxlength="11">
+						<input type="submit" value="变身">
+					</form>
+					</td>
+				</tr>
+			</table>
+			</div>
+
+			<div class="module"> 
+			<table width="100%">
+				<caption>发短信</caption>
+				<tr>
+					<td>					
+					<form action="/myadmin/sms/send/single" method="post" >
+						<input type='text' name='mobile' maxlength=11><br>
+						<textarea name="message" cols="30" rows="10"></textarea><br>
+						<input type='radio' name='channel' checked='true' value = 'zuitu'>最土
+						<input type='radio' name='channel' value = 'fetion'>飞信
+						<input type="submit" value="发送">
+					</form>
+					</td>
+				</tr>
+			</table>
+			</div>
+			<div class="module"> 
+			<table width="100%">
+				<caption>群发给顾客,当前有{{userprofiles|length}}个顾客</caption>
+				<tr>
+					<td>					
+					<form action="/myadmin/sms/send/multiple" method="post" onsubmit="return confirm('一失足成千古恨，你确定要给{{userprofiles|length}}个人群发这条短信么？')">
+						<textarea name="message" cols="30" rows="10"></textarea><br>
+						<input type="checkbox" name="has_few_orders">订单<=1({{has_few_orders}})
+						<input type="checkbox" name="has_many_orders">订单>=2({{has_many_orders}})<br>
+						<input type="checkbox" name="has_renren">有人人帐号({{has_renren}})
+						<input type="checkbox" name="has_no_renren">没有人人帐号({{has_no_renren}})
+						<br>
+						<input type="submit" value="发送">
+					</form>
+					</td>
+				</tr>
+			</table>
+			</div>
+			
+			<div class="module"> 
+			<table width="100%">
+				<caption>赠送抵价券</caption>
+				<tr>
+					<td>
+			<form action="/myadmin/coupon/add" method='post'>
+				手机:<input type='text' name='mobile'><br>
+				<select name="coupontype">
+				{% for coupontype in coupontypes %}
+					<option value='{{coupontype.id}}'>{{coupontype}}</option>
+				{% endfor %}
+				</select>
+				<input type="submit" value="赠送">
+			</form>
+					</td>
+				</tr>
+			</table>
+			</div>
+
+			<div class="module"> 
+			<table width="100%">
+				<caption>抵价券群发,当前有{{userprofiles|length}}个顾客</caption>
+				<tr>
+					<td>
+			<form action="/myadmin/coupon/addall" method="post">
+				<select name="coupontype">
+				{% for coupontype in coupontypes %}
+					<option value='{{coupontype.id}}'>{{coupontype}}</option>
+				{% endfor %}
+				</select>
+				<input type="submit" value="赠送">
+			</form>
+					</td>
+				</tr>
+			</table>
+			</div>
+		</td>
+	</tr>
+</table>
+{% endblock %}

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn" xml:lang="zh-cn" > 
+<head> 
+<title>{% block title %}{% endblock %}</title> 
+<link rel="stylesheet" type="text/css" href="/media/css/base.css" /> 
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/media/css/ie.css" /><![endif]--> 
+ 
+<script type="text/javascript">window.__admin_media_prefix__ = "/media/";</script> 
+<script src="/static/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+
+{% block headscript %}
+{% endblock %}
+
+<meta name="robots" content="NONE,NOARCHIVE" /> 
+</head> 
+ 
+ 
+<body > 
+ <div > 
+ 
+    
+    <!-- Header --> 
+    <div id="header"> 
+        <div id="branding"> 
+        
+			<h1 id="site-name">
+			<a href="/myadmin/" >管理首页</a> |
+			<a href="/myadmin/fruit">水果列表</a> |
+			<a href="/myadmin/userinfo" >用户统计</a> |
+			<a href="/myadmin/sale" >订单列表</a> |
+			<a href="/myadmin/coupon">抵价券</a> |
+			</h1> 
+ 
+        </div> 
+        
+        <div id="user-tools"> 
+            您好, {{user.username}} 
+				<a href="/" >网站首页</a> |
+                    <a href="/admin/password_change/"> 
+                
+                修改密码</a> |
+                
+                
+                    <a href="/admin/logout/"> 
+                
+                注销</a> 
+            
+        </div> 
+        
+        
+    </div> 
+    <!-- END Header --> 
+    
+    
+ 
+        
+ 
+    <!-- Content --> 
+    <div align="center">
+    {% block content %}
+    {% endblock %}
+    </div>
+</div>
+ 
+</body> 
+</html> 

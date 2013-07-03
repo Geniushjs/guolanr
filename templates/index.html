@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}
+果篮儿网上水果超市，新鲜水果，水果拼盘，一日九送，货到付款，包退包换
+{% endblock %}
+
+{% block headscript %}
+<script src="/static/js/cart.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/js/index.js" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="cart">
+{% include "cart.html" %}
+</div>
+
+<table width="993" cellpadding="0" cellspacing="0" border="0"
+	style="padding-left:30">
+	<tr>
+	{% for fruit in fruits %}
+		<td>
+		<table class="fruit" cellpadding="0" cellspacing="0" border="0">
+			<tr>
+				<td valign="top" class="image_big">
+				<img src="/static/{{fruit.image_small}}">
+				</td>
+			</tr>
+			<tr>
+				<td class="fruit_text"><b>{{fruit.name}}</b> {{fruit.price}}/斤, 最少点{{fruit.least}}{{fruit.unit}}</td>
+			</tr>
+			<tr>
+				<td class="fruit_text">按{{fruit.unit}}卖，每{{fruit.unit}}{{fruit.min_weight}}g~{{fruit.max_weight}}g</td>
+			</tr>
+			<tr>
+				<td><table width="100%"><tr>
+					<td class="rmb fruit_text">￥{{fruit.min_price}}～{{fruit.max_price}}/{{fruit.unit}}</td>
+					{% if fruit.sold_out %}
+					<td class="sold_out">
+						今天已售完
+					</td>
+					{% else %}
+					<td class="getone" fruit_id="{{fruit.id}}">
+					</td>
+					{% endif %}
+					</tr></table>
+				</td>
+			</tr>
+		</table>
+		</td>
+		{% cycle "" "" "" "</tr></table><table width='993' cellpadding='0' cellspacing='0' border='0' style='padding-left:30'><tr>" %}
+	{% endfor %}
+	</tr>
+</table>
+
+{% endblock %}

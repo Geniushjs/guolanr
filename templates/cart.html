@@ -1,0 +1,73 @@
+<div class="small_cart">
+	<div align="right">
+	<table cellspacing="0" cellpadding="0" border="0"><tr><td class="cart_top"></td></table>
+
+	<table cellpadding="0" cellspacing="0" border="0" class="cart_center">
+	<tr>
+		<td align="center" valign="center">
+			<table cellpadding="0" cellspacing="0" border="0">
+			<tr><td>
+			<span class="telphone">客服电话18010022115</span>
+			</td>
+			<td>
+			<img src="/static/images/dianhua.png">
+			</td></tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="rmb" align="center">
+		果篮儿里有
+		<font size="4" color="black"><b>{{cart.types}}</b></font>
+		种水果<br>总计
+		<font size="4" color="black"><b>{{cart.min_total}}~{{cart.max_total}}</b></font>
+		元
+		<a href="/checkout" class="checkout"><img src="/static/images/jiesuan.png" border="0"></a>
+		</td>
+	</tr>
+	</table>
+	
+	<table cellspacing="0" cellpadding="0" border="0"><tr><td class="cart_bottom"></td></table>
+	</div>
+	
+	<div class="small_cart_body" align="right">
+	<table class="small_cart_text cart_center" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+	<th align="left">水果</th>
+	<th align="left">单价</th>
+	<th align="center">数量</th>
+	<th align="left" width="30">删除</th>
+	</tr>
+	{% for fruit in cart.fruits %}
+	<tr>
+		<td>{{fruit.name}}</td>
+		<td>{{fruit.min_price}}~{{fruit.max_price}}</td>
+	
+		<td width="75">
+			<img src="/static/images/btn_del.jpg" class="del less" fruit_id="{{fruit.id}}">
+			<input class="count" type="text" value="{{fruit.count}}" fruit_id="{{fruit.id}}" size="1">
+			<img src="/static/images/btn_add.jpg" class="add more" fruit_id="{{fruit.id}}">
+		</td>
+	
+		<td class="remove" fruit_id="{{fruit.id}}"></td>
+	</tr>
+	{% endfor %}
+
+	<tr>
+		<td height="10"></td>
+	</tr>
+	
+	<tr>
+		<td colspan="5" align="right" valign="bottom">
+		<a href="javascript:void(0);" class="clear">清空果篮儿</a>
+		</td>
+	</tr>
+	
+	<tr>
+		<td height="10"></td>
+	</tr>
+	</table>
+	
+	<table cellspacing="0" cellpadding="0" border="0"><tr><td class="cart_bottom"></td></table>
+	</div>
+</div>
